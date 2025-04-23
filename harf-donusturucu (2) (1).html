@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Harf Dönüştürücü</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background: #f8f8f8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: background 0.3s, color 0.3s;
+    }
+    body.dark-mode {
+      background: #1e1e1e;
+      color: white;
+    }
+    textarea {
+      width: 100%;
+      max-width: 600px;
+      height: 150px;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      font-size: 1rem;
+      resize: vertical;
+      border-radius: 0.5rem;
+    }
+    button {
+      margin: 0.25rem;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+      border: none;
+      border-radius: 0.5rem;
+      background-color: #4CAF50;
+      color: white;
+    }
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .toggle-switch {
+      margin-top: 1rem;
+      cursor: pointer;
+      font-size: 1rem;
+      background: #333;
+      color: white;
+      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Harf Dönüştürücü</h1>
+  <textarea id="inputText" placeholder="Metni buraya yaz ya da yapıştır..."></textarea>
+  <div class="button-row">
+    <button onclick="toUpperCase()">BÜYÜK HARF</button>
+    <button onclick="toLowerCase()">küçük harf</button>
+    <button onclick="toTitleCase()">Başlık Harfi</button>
+    <button onclick="copyText()">📋 Kopyala</button>
+    <button onclick="clearText()">🗑️ Temizle</button>
+  </div>
+  <button class="toggle-switch" onclick="toggleDarkMode()">🌙 Karanlık Mod</button>
+
+  <script>
+    const inputText = document.getElementById("inputText");
+
+    inputText.addEventListener("input", () => {
+      if (window.autoMode === "upper") toUpperCase();
+      else if (window.autoMode === "lower") toLowerCase();
+      else if (window.autoMode === "title") toTitleCase();
+    });
+
+    function toUpperCase() {
+      window.autoMode = "upper";
+      inputText.value = inputText.value.toUpperCase();
+    }
+
+    function toLowerCase() {
+      window.autoMode = "lower";
+      inputText.value = inputText.value.toLowerCase();
+    }
+
+    function toTitleCase() {
+      window.autoMode = "title";
+      const converted = inputText.value.toLowerCase().replace(/(\w)/g, char => char.toUpperCase());
+      inputText.value = converted;
+    }
+
+    function copyText() {
+      inputText.select();
+      document.execCommand("copy");
+      alert("Metin kopyalandı!");
+    }
+
+    function clearText() {
+      inputText.value = "";
+      window.autoMode = null;
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark-mode");
+    }
+  </script>
+</body>
+</html>
